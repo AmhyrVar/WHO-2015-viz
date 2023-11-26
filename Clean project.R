@@ -72,7 +72,7 @@ le_2015 <- le %>%
 
 
 
-# Rename 'name' column to 'Country' in df2
+
 wd1 <- wd %>% rename(Country = name) %>% 
   select(Country)
 
@@ -81,7 +81,6 @@ countries_to_add <- c("S. Sudan", "Sudan", "Dem. Rep. Korea","Korea")
 rows_to_add <- wd1 %>% filter(Country %in% countries_to_add)
 
 
-# Append this row to df1
 le_2015 <- bind_rows(le_2015, rows_to_add)
 le_2015 <- le_2015 %>% 
   select(-geometry)
@@ -182,7 +181,7 @@ infection_plotly <- function(selected_infection) {
     plot <- NULL
   }
   
-  # Retourner le ggplotly de la visualisation sélectionnée
+  
   ggplotly(plot)
 }
 
@@ -202,7 +201,7 @@ corr_plotly <- function()
 {
   ggplotly(
     
-    # Créer la heatmap de corrélation
+    
     ggplot(data = cor_melted, aes(x = Var1, y = Var2, fill = value)) +
       geom_tile() +  
       scale_fill_gradient2(low = "red", high = "blue", mid = "white", 
@@ -217,7 +216,7 @@ corr_plotly <- function()
 
 
 
-####NEw Shiny
+
 
 library(shiny)
 library(plotly)
@@ -243,17 +242,17 @@ ui <- fluidPage(
                )
              )
     ),
-    # Second onglet
+   
     tabPanel("Infections et PIB",
              sidebarLayout(
                sidebarPanel(
-                 # Ajouter un autre selectInput ici pour le deuxième onglet
+                
                  selectInput("infection", "Infection:",
                              choices = c("Polio", "Hepatitis_B", "Measles","Diphtheria","Incidents_HIV")),
-                 width = 2# Mettez vos propres options ici
+                 width = 2
                ),
                mainPanel(
-                 # Vous pouvez ajouter des éléments de sortie ici, par exemple un autre graphique plotly
+                
                  plotlyOutput("anotherPlot"),
                  width = 10
                )
@@ -284,8 +283,7 @@ server <- function(input, output) {
   selected_infection <- reactive({
     input$infection
   })
-  # Vous pouvez ajouter la logique du serveur pour le deuxième onglet ici
-  # Par exemple:
+  
   output$anotherPlot <- renderPlotly({
     infection_plotly(selected_infection())
   })
